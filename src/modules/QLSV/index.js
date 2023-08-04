@@ -1,0 +1,1 @@
+export { QuanLySinhVien } from "./QuanLySinhVien"

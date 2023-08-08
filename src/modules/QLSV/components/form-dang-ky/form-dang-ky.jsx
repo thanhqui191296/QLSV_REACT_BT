@@ -28,7 +28,8 @@ class FormDangKy extends Component {
       hoTen: "",
       sdt: "",
       email: "",
-    }
+    },
+    searchText: ""
   };
 
   hanldeChange = (event) => {
@@ -111,7 +112,11 @@ class FormDangKy extends Component {
     }
     return null
   }
-  
+  hanldeSearch = (event) => {
+    event.preventDefault()
+    const searchText = this.state.searchText.toLowerCase().trim()
+    this.props.dispatch(timKiemThongTinCreator(searchText))
+  }
 
 
   render() {
@@ -163,7 +168,7 @@ class FormDangKy extends Component {
                 onFocus={this.hanldeFocus}
                 value={this.state.value?.name}
                 onChange={this.hanldeChange}
-                type="text" 
+                type="text"
                 className="form-control"
                 id="hoTen"
                 name="name"
@@ -193,19 +198,23 @@ class FormDangKy extends Component {
             </div>
           </div>
         </div>
-        <div className='mt-4'>
-          {this.props.svChinhSua ? (<button className='btn btn-warning mx-4'>Chỉnh Sửa</button>) : (<button className='btn btn-success'>Thêm sinh viên</button>)}
+        <div className="row mt-4">
+          <div className=' col-4'>
+            {this.props.svChinhSua ? (<button className='btn btn-warning mx-4'>Chỉnh Sửa</button>) : (<button className='btn btn-success'>Thêm sinh viên</button>)}
 
 
-        </div>
-        <div>
-          <div className="row mt-4">
-            <div className="form-group">
-              <input placeholder="Nhập tên sinh viên" type="text" className="form-control" id="txtSearch"  />
-              <button  id="btnSearch" className="btn btn-primary mt-3" >Search</button>
-            </div>
+          </div>
+
+
+          <div className="form-group col-4">
+            <input placeholder="Nhập tên sinh viên" type="text" className="form-control" id="txtSearch" value={this.state.searchText} onChange={(event) => this.setState({ searchText: event.target.value })} />
+
+          </div>
+          <div className='col-4'>
+            <button id="btnSearch" className="btn btn-primary " onClick={this.hanldeSearch}>Search</button>
           </div>
         </div>
+
 
       </form>
     )
@@ -214,7 +223,9 @@ class FormDangKy extends Component {
 const mapStateToProps = (rootReducer) => {
   return {
     svChinhSua: rootReducer.quanLySinhVienReducer.svChinhSua,
-    
+    mangTimKiem: rootReducer.quanLySinhVienReducer.mangTimKiem
+
+
   }
 }
 
